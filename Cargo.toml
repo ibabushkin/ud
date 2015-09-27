@@ -1,0 +1,8 @@
+[package]
+name = "ud"
+version = "0.1.0"
+authors = ["lenoch <lenoch420@yandex.com>"]
+
+[dependencies]
+rustc-serialize = "0.3.16"
+hyper = "0.6.14"
