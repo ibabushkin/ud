@@ -40,14 +40,23 @@ struct Definition{
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    if args.len() == 2 {
-        let definition = &args[1];
-        let data = get_definition(definition);
+    if args.len() >= 2 {
+        let mut definition = String::new();
+        for i in 1..args.len(){
+            definition.push_str(&args[i]);
+            definition.push_str(" ");
+        }
+        let data = get_definition(&definition);
         let json_data = Json::from_str(&data).unwrap();
         let res = json_data.find_path(&["list"]).unwrap().to_string();
         let definitions: Vec<Definition> = json::decode(&res).unwrap();
-
-        println!("{}", definitions[0].definition);
+        
+        if definitions.len() > 0 {
+            println!("{}", definitions[0].definition);
+            println!("example: {}", definitions[0].example);
+        }else{
+            println!("No results found.");
+        }
     }else{
         println!("Invalid number of arguments");
     }
