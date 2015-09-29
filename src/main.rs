@@ -42,7 +42,7 @@ fn main() {
     let args: Vec<String> = env::args().collect();
     if args.len() >= 2 {
         let mut definition = String::new();
-        for i in 1..args.len(){
+        for i in 1..args.len() {
             definition.push_str(&args[i]);
             definition.push_str(" ");
         }
@@ -51,11 +51,18 @@ fn main() {
         let res = json_data.find_path(&["list"]).unwrap().to_string();
         let definitions: Vec<Definition> = json::decode(&res).unwrap();
         
+        // do we have definitions?
         if definitions.len() > 0 {
-            println!("{}", definitions[0].definition);
-            println!("example: {}", definitions[0].example);
+            // is it overly elaborate?
+            if definitions[0].definition.len() > 500 {
+                println!("Long definition: {}", definitions[0].permalink);
+            }else{
+                // join lines
+                println!("{}", definitions[0].definition.replace("\r\n", " "));
+                println!("Example: {}", definitions[0].example.replace("\n", " "));
+            }
         }else{
-            println!("No results found.");
+            println!("No definitions :/");
         }
     }else{
         println!("Invalid number of arguments");
