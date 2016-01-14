@@ -1,9 +1,10 @@
 extern crate rustc_serialize;
 extern crate hyper;
 
+use std::env;
 use std::io::Read;
 use std::io::Error;
-use std::env;
+use std::string::String;
 
 use hyper::Client;
 
@@ -55,11 +56,16 @@ fn main() {
         if definitions.len() > 0 {
             // is it overly elaborate?
             if definitions[0].definition.len() > 500 {
+                // join lines
+                println!("{} [...]", definitions[0].definition.split_at(
+                    490).0.replace("\r\n", " "));
                 println!("Long definition: {}", definitions[0].permalink);
             }else{
                 // join lines
                 println!("{}", definitions[0].definition.replace("\r\n", " "));
-                println!("Example: {}", definitions[0].example.replace("\n", " "));
+                // show example
+                println!("Example: {}",
+                    definitions[0].example.replace("\n", " "));
             }
         }else{
             println!("No definitions :/");
